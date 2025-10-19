@@ -393,9 +393,28 @@ app.post('/api/chat', async (req, res) => {
     });
 
     if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('Chat upstream failed:', response.status, errorBody);
-      return res.status(response.status).json({ error: 'LLM upstream error', details: errorBody });
+      const errorBodyText = await response.text();
+      let parsed;
+      try {
+        parsed = JSON.parse(errorBodyText);
+      } catch (parseErr) {
+        parsed = null;
+      }
+
+      const upstreamMessage =
+        parsed?.error?.message ||
+        parsed?.error ||
+        parsed?.message ||
+        errorBodyText ||
+        'Unknown upstream error';
+
+      console.error('Chat upstream failed:', response.status, upstreamMessage);
+
+      return res.status(response.status).json({
+        error: 'LLM 上游接口返回错误',
+        message: upstreamMessage,
+        status: response.status,
+      });
     }
 
     const payload = await response.json();
