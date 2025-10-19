@@ -316,7 +316,8 @@ chatForm.addEventListener('submit', async event => {
 
     if (!response.ok) {
       const errorPayload = await response.json().catch(() => ({}));
-      throw new Error(errorPayload?.error || `HTTP ${response.status}`);
+      const upstreamMessage = errorPayload?.message || errorPayload?.error;
+      throw new Error(upstreamMessage || `HTTP ${response.status}`);
     }
 
     const data = await response.json();
