@@ -37,7 +37,7 @@
 
 3. **获取代码**
    ```bash
-   git clone https://github.com/<your-account>/gold.git
+   git clone https://github.com/davidshi85/goldmonitor.git
    cd gold
    ```
 
@@ -112,6 +112,3 @@
 - **聊天接口返回 500**：确认 `.env` 中已填入 `OPENAI_API_KEY`，且服务器能访问 OpenAI。
 - **切换交易品种**：设置 `OKX_INSTRUMENT=BTC-USDT` 等即可更换 OKX 现货交易对，同时注意更新前端文案。
 
-## 许可证
-
-项目未附带许可证，若计划公开分发请自行添加合适的 License。
